@@ -5,16 +5,16 @@ import requests
 from pymongo import MongoClient
 
 
-def uniq(list_dicts):
-    return [dict(p) for p in set(tuple(i.items())
-        for i in list_dicts)]
-
-
-lat = []
-long = []
-data = pd.read_csv("datasets/costa_rica_crime_data_english/costa_rica_crimes_english.csv")
-position = data[["Province","Canton","District"]].to_dict("records")
-uniqueposition = uniq(position)
+# def uniq(list_dicts):
+#     return [dict(p) for p in set(tuple(i.items())
+#         for i in list_dicts)]
+#
+#
+# lat = []
+# long = []
+# data = pd.read_csv("datasets/costa_rica_crime_data_english/costa_rica_crimes_english.csv")
+# position = data[["Province","Canton","District"]].to_dict("records")
+# uniqueposition = uniq(position)
 # print(data.groupby(["Province","Canton","District"]).count()["Unnamed: 0"])
 # for i in range(len(uniqueposition)):
 #     try:
@@ -47,13 +47,13 @@ uniqueposition = uniq(position)
 
 
 datawithlatlong = pd.read_csv("datawithlatlong.csv")
-datawithlatlong = datawithlatlong[['Crime', 'SubtypeCrime', 'Date', 'Time',
-       'SubtypeVictim', 'Age', 'Gender', 'Nationality', 'Province', 'Canton',
-       'District', 'lat', 'long']]
-datawithlatlong['Date']= pd.to_datetime(datawithlatlong['Date'],format='%d.%m.%y')
-datawithlatlong.to_csv("datawithlatlong.csv")
-# print(datawithlatlong)
-# client = MongoClient(port=27017)
-# db = client.backend
-# mycol = db["WDLData"]
-# db.WDLData.insert_many(datawithlatlong.to_dict('records'))
+# datawithlatlong = datawithlatlong[['Crime', 'SubtypeCrime', 'Date', 'Time',
+#        'SubtypeVictim', 'Age', 'Gender', 'Nationality', 'Province', 'Canton',
+#        'District', 'lat', 'long']]
+# datawithlatlong['Date']= pd.to_datetime(datawithlatlong['Date'],format='%d.%m.%y')
+# datawithlatlong.to_csv("datawithlatlong.csv")
+print(datawithlatlong)
+client = MongoClient(port=27017)
+db = client.WDL
+mycol = db["WDLData"]
+db.WDLData.insert_many(datawithlatlong.to_dict('records'))
