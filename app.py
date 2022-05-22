@@ -16,6 +16,7 @@ import urllib.parse
 
 @app.route('/location',methods = ['POST', 'GET'])
 def location():
+    
    data = request.get_data()
    dict = json.loads(data.decode('utf-8'))
    # show(dict)
