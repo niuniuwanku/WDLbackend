@@ -14,28 +14,33 @@ CORS(app)
 # import requests
 import urllib.parse
 
-@app.route('/location',methods = ['POST', 'GET'])
-def location():
-    
-   data = request.get_data()
-   dict = json.loads(data.decode('utf-8'))
-   # show(dict)
-   print(dict)
-   return dict
-
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["WDL"]
 collection = mydb["WDLData"]
 
-x = collection.find_one()
-#
-#
-#
-# client = MongoClient(port=27017)
-# db = client.WDL
-# collection = db.WDLData
-print(x)
+@app.route('/location')
+def location():
+   lat = request.args.get('lat')
+   long = request.args.get('long')
+   Date = request.args.get('Date')
+   Date = datetime.strptime(Date, '%y-%m-%d')
+   Crimetype = request.args.get('Crimetype')
+   Subcrimetype = request.args.get('Subcrimetype')
+   # for i in range(0,10000):
+   #     collection.insert_one({"Crime": Crimetype, "Subcrimetype": Subcrimetype, "Date": Date, "lat": lat, "long": long})
+   collection.insert_one({"Crime":Crimetype,"Subcrimetype":Subcrimetype,"Date":Date,"lat":lat,"long":long})
+   print(lat,long,Date,Crimetype,Subcrimetype)
+
+   return "success"
+
+
+
+
+
+
+
+
 
 
 
@@ -192,7 +197,7 @@ def getbydataall():
         latlonglist.append(latlongdict)
     latlongjson = dumps(latlonglist)
 
-
+    print(latlongjson)
 
     return latlongjson
 
