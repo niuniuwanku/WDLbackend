@@ -50,7 +50,7 @@ datawithlatlong = pd.read_csv("datawithlatlong.csv")
 # datawithlatlong = datawithlatlong[['Crime', 'SubtypeCrime', 'Date', 'Time',
 #        'SubtypeVictim', 'Age', 'Gender', 'Nationality', 'Province', 'Canton',
 #        'District', 'lat', 'long']]
-# datawithlatlong['Date']= pd.to_datetime(datawithlatlong['Date'],format='%d.%m.%y')
+datawithlatlong['Date']= pd.to_datetime(datawithlatlong['Date'])
 # datawithlatlong.to_csv("datawithlatlong.csv")
 print(datawithlatlong)
 client = MongoClient(port=27017)

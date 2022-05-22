@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from datetime import datetime
 import flask
+import pymongo
 app = Flask(__name__)
 CORS(app)
 
@@ -22,9 +23,18 @@ def location():
    return dict
 
 
-client = MongoClient(port=27017)
-db = client.WDL
-collection = db.WDLData
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+mydb = myclient["WDL"]
+collection = mydb["WDLData"]
+
+x = collection.find_one()
+#
+#
+#
+# client = MongoClient(port=27017)
+# db = client.WDL
+# collection = db.WDLData
+print(x)
 
 
 
@@ -127,6 +137,7 @@ def getbydate():
 
       ])
 
+
     latlonglist = []
     for i in list(result):
         latlongdict = {}
@@ -136,7 +147,7 @@ def getbydate():
         latlongdict["Count"] = i["Count"]
         latlonglist.append(latlongdict)
     latlongjson = dumps(latlonglist)
-
+    print(latlongjson)
 
 
     return latlongjson
@@ -145,6 +156,7 @@ def getbydate():
 def getbydataall():
     from_date = request.args.get('from_date')
     from_date = datetime.strptime(from_date, '%y-%m-%d')
+
     to_date = request.args.get('to_date')
     to_date = datetime.strptime(to_date, '%y-%m-%d')
 
@@ -186,4 +198,4 @@ def getbydataall():
 
 
 if __name__ == '__main__':
-   app.run(debug = True)
+   app.run(host="0.0.0.0", port="5000")
